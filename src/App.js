@@ -1,26 +1,95 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { Route, Switch, HashRouter } from 'react-router-dom';
+import Home from './component/home/home';
+import Sidebar from './component/sidebar/sidebar';
+import Product from './component/product/product';
+import Login from './component/login/login';
+import sessionService from "./services/sessionservice";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import SignUp from './component/signup/signup';
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showSideBar: sessionService.isUserLogged()
+    };
+
+    this.sessionService = sessionService;
+  }
+
+  render() {
+
+    var sidebar = (
+      <Sidebar
+        setShowSideBar={this.setShowSideBar}
+        {...this.props}
+      />
+    );
+
+    if (!this.state.showSideBar) {
+      sidebar = undefined;
+    }
+
+    return (
+      <HashRouter>
+        <div className="App">
+          {sidebar}
+          <div className="r-content">
+            <Switch>
+              <Route
+                exact={true}
+                path="/"
+                component={props =>
+                  <Login
+                    {...props}
+                  />
+                }
+              />
+              <Route
+                exact={true}
+                path="/login"
+                component={props =>
+                  <Login
+                    {...props}
+                  />
+                }
+              />
+              <Route
+                exact={true}
+                path="/signUp"
+                component={props =>
+                  <SignUp
+                    {...props}
+                  />
+                }
+              />
+              <Route
+                exact={true}
+                path="/landingPage"
+                component={props =>
+                  <Home
+                    {...props}
+                  />}
+
+              />
+              <Route
+                exact={true}
+                path="/products"
+                component={props =>
+                  <Product
+                    {...props}
+                  />
+                }
+              />
+            </Switch>
+          </div>
+        </div>
+      </HashRouter>
+    );
+  }
 }
 
 export default App;
