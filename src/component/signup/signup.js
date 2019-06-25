@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
+
 import "./signup.css";
 
 export default class SignUp extends Component {
@@ -11,8 +12,11 @@ export default class SignUp extends Component {
             firstName: "",
             lastName: "",
             email: "",
-            username: ""
+            username: "",
+            validateUserName: false
         };
+
+        this.handleChange = this.handleChange.bind(this);
     }
     handleChange = event => {
         this.setState({
@@ -20,7 +24,43 @@ export default class SignUp extends Component {
         });
     }
 
+    handleUsername = (event) => {
+        let that = this;
+
+        this.setState({
+            username: event.target.value
+        })
+
+        var Airtable = require('airtable');
+        var base = new Airtable({ apiKey: 'keyBASfn0tbP5woCx' }).base('appzeUDpZOqRjLPaJ');
+
+        base('Users').select({
+            view: "Grid view"
+        }).eachPage(function page(records, fetchNextPage) {
+            records.forEach(function (record) {
+                if (record.get('username') === that.state.username) {
+                    that.setState({
+                        validateUserName: false
+                    });
+                    return;
+                } else {
+                    that.setState({
+                        validateUserName: true
+                    });
+                }
+            });
+            fetchNextPage();
+        }, function done(err) {
+            if (err) { console.error(err); return; }
+        });
+    }
+
+    validateUsername() {
+        return this.state.username.length >= 6 || !this.state.validateUserUsername;
+    }
+
     handleSubmit = event => {
+        var props = this.props
         event.preventDefault();
         var Airtable = require('airtable');
         var base = new Airtable({ apiKey: 'keyBASfn0tbP5woCx' }).base('appzeUDpZOqRjLPaJ');
@@ -37,6 +77,7 @@ export default class SignUp extends Component {
                 return;
             }
             console.log(record.getId());
+            props.history.push('/login');
         });
 
     }
@@ -51,8 +92,15 @@ export default class SignUp extends Component {
                             autoFocus
                             type="username"
                             value={this.state.username}
-                            onChange={this.handleChange}
+                            onChange={this.handleUsername}
                         />
+                        <span
+                            style={{
+                                display: this.validateUsername() ? "block" : "none"
+                            }}
+                        >
+                            Username already exist
+                        </span>
                     </FormGroup>
                     <FormGroup controlId="password" bsSize="large">
                         <label>Password</label>
