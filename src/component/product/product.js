@@ -31,8 +31,31 @@ class Product extends Component {
   }
 
   sendEmail = (product, e) => {
-    console.log(product);
-    console.log(e);
+
+    var nodemailer = require('nodemailer');
+
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'resonancecompanytest@gmail.com',
+        pass: 'Letmein123***'
+      }
+    });
+
+    var mailOptions = {
+      from: 'resonancecompanytest@gmail.com',
+      to: 'gmzjohn7@gmail.com',
+      subject: 'Sending Email using Node.js',
+      text: 'That was easy!'
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
   }
 
   render() {
@@ -40,13 +63,13 @@ class Product extends Component {
       <div className="container mt-5">
         <div className="row">
           <div className="col">
-            <div className="">
+            <div className="card-deck">
               {this.state.products.map(
                 product =>
                   <div>
                     <ProductCard {...product.fields} />
                     <button
-                    onClick={(e) => this.sendEmail(product, e)}
+                      onClick={(e) => this.sendEmail(product, e)}
                     >
                       Send Email
                   </button>

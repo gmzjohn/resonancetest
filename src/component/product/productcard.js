@@ -1,16 +1,16 @@
 import React from 'react';
-import { Card } from 'react-bootstrap'
 
+import './product.css';
 
 const ProductCard = ({ Name, Notes, Description, Picture }) => (
-    <div className="card">
+    <div className="card r-card-img">
         <img className="card-img-top" src={Picture[0].url} alt="Movie poster" />
         <div className="card-body">
             <h5 className="card-title">{Name}</h5>
             {/* <p className="card-text">{Description}</p> */}
-            <p className="card-text">
+            {/* <p className="card-text">
                 <small className="text-muted">{Notes}</small>
-            </p>
+            </p> */}
         </div>
     </div>
 );
