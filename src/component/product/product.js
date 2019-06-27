@@ -4,10 +4,7 @@ import ProductCard from './productcard';
 import './product.css';
 
 class Product extends Component {
-
-
   constructor(props) {
-
     super(props);
 
     this.state = {
@@ -68,7 +65,7 @@ class Product extends Component {
 
   render() {
     return (
-      <div className="container mt-5">
+      <div className="container">
         <input
           id="searchText"
           type="text"
@@ -84,11 +81,11 @@ class Product extends Component {
                 product =>
                   <div>
                     <ProductCard {...product.fields} />
-                    <button
+                    {/* <button
                       onClick={(e) => this.sendEmail(product, e)}
                     >
                       Send Email
-                  </button>
+                  </button> */}
                   </div>
               )}
             </div>
