@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl } from "react-bootstrap";
 import sessionService from "../../services/sessionservice";
 import "./login.css";
 
@@ -34,7 +33,7 @@ export default class Login extends Component {
             view: "Grid view"
         }).eachPage(function page(records, fetchNextPage) {
             records.forEach(function (record) {
-                if((record.get('username') === that.state.username) && (record.get('Password') === btoa(that.state.password))) {
+                if ((record.get('username') === that.state.username) && (record.get('Password') === btoa(that.state.password))) {
                     sessionService.createSession(
                         JSON.stringify({
                             record
@@ -52,35 +51,51 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className="Login">
-                <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="username" bsSize="large">
-                        <label>Username</label>
-                        <FormControl
-                            autoFocus
-                            type="username"
-                            value={this.state.username}
-                            onChange={this.handleChange}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="password" bsSize="large">
-                        <label>Password</label>
-                        <FormControl
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                            type="password"
-                        />
-                    </FormGroup>
-                    <Button
-                        block
-                        bsSize="large"
-                        type="submit"
-                    >
-                        Login
-                    </Button>
-                    <a className="r-menu-item" href="/#/signUp">Sign Up</a>
-                </form>
-            </div>
+            <body>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                            <div className="card card-signin my-5">
+                                <div className="card card-signin my-5">
+                                    <h5 className="card-title text-center">Sign In</h5>
+                                    <form className="form-signin">
+                                        <div className="form-label-group">
+                                            <input
+                                                id="username"
+                                                type="text"
+                                                className="form-control"
+                                                value={this.state.username}
+                                                onChange={this.handleChange}
+                                                required autoFocus
+                                            />
+                                            <label htmlFor="inputUsername">Username</label>
+                                        </div>
+                                        <div className="form-label-group">
+                                            <input
+                                                id="password"
+                                                type="password"
+                                                className="form-control"
+                                                value={this.state.password}
+                                                onChange={this.handleChange}
+                                                required autoFocus
+                                            />
+                                            <label htmlFor="inputEmail">Password</label>
+                                        </div>
+                                        <button
+                                            className="btn btn-lg btn-primary btn-block text-uppercase"
+                                            type="submit"
+                                            onClick={this.handleSubmit}
+                                        >
+                                            Sign in
+                                        </button>
+                                        <a className="btn btn-lg secondary btn-block text-uppercase" href="/#/signUp">Sign Up</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
         );
     }
 }
