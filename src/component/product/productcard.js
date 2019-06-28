@@ -1,21 +1,21 @@
 import React from 'react';
+import axios from "axios";
 
-
-// const ProductCard = ({ Name, Notes, Description, Picture }) => (
-//     <div className="card r-card-img">
-//         <img className="card-img-top" src={Picture[0].url} alt="Movie poster" />
-//         <div className="card-body">
-//             <h5 className="card-title">{Name}</h5>
-//             {/* <p className="card-text">{Description}</p> */}
-//             {/* <p className="card-text">
-//                 <small className="text-muted">{Notes}</small>
-//             </p> */}
-//         </div>
-//     </div>
-// );
 function sendEmail(description, e) {
     console.log(description);
     console.log(e);
+
+    axios.post('https://fp9cx0d5i0.execute-api.us-east-1.amazonaws.com/Resonance', 
+    {
+        desc: description
+    })
+    .then((resp) => resp.json())
+      .then(data => {
+        console.log(data);
+      }).catch(err => {
+        console.log(err);
+      });
+    
 }
 
 const ProductCard = ({ Name, Notes, Description, Picture }) => (
@@ -29,7 +29,7 @@ const ProductCard = ({ Name, Notes, Description, Picture }) => (
             className="btn btn-lg btn-primary btn-block text-uppercase"
             onClick={(e) => sendEmail(Description, e)}
         >
-            Send Email
+            Request Information
         </button>
     </div>
 );
