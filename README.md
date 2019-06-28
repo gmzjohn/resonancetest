@@ -66,3 +66,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### AWS ES
+
+I created a lambda function called sendEmail and an API gateway that deploys me the following url: https://fp9cx0d5i0.execute-api.us-east-1.amazonaws.com/Resonance. This API Gateway points the lambda function to be executed.
